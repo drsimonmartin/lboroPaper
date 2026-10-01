@@ -1,39 +1,24 @@
-# lboroPaper
+# lboroPaper v0.4
 
 Metadata-driven Quarto starter template for Loughborough University committee papers.
 
-Naming is consistent throughout:
+This revision restores the colour/style information found in the supplied 2025 Word coversheet:
 
-- repository: `drsimonmartin/lboroPaper`
-- extension directory: `_extensions/lboroPaper/`
-- custom format: `lboroPaper-docx`
+- `Committee Name` custom Word style, including white text;
+- `SectionHeading2` custom style for the paper reference;
+- source heading styles and purple theme palette from `reference.docx`;
+- pale-purple `#E5DFEC` / `accent4` styling for the Action Required table.
 
-## Start a new paper
+## Create a paper
 
 ```bash
 quarto use template drsimonmartin/lboroPaper
 ```
 
-Then enter the new directory, edit the generated `.qmd`, and render it:
-
-```bash
-quarto render test.qmd
-```
-
-The YAML must contain:
+Use only:
 
 ```yaml
 format: lboroPaper-docx
 ```
 
-Do not use the older names `committee-paper-docx` or `lboro-docx`.
-
-## Check the local installation
-
-The project should contain `_extensions/lboroPaper/_extension.yml`. You can also run:
-
-```bash
-quarto list extensions
-```
-
-If testing after updating this GitHub repository, create a fresh test project with `quarto use template` so that you are not using the extension copied from an earlier version.
+After replacing an older GitHub version, create a fresh test project because Quarto copies the extension into each project.
