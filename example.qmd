@@ -17,16 +17,14 @@ supplementary-reading: "Add links or appendix references here, or omit this fiel
 format: lboroPaper-docx
 ---
 
-Write only the substantive body of the committee paper below.
-
-## Background
+[Background]{custom-style="Committee Body Heading"}
 
 Add the background and evidence required by the committee.
 
-## Proposal or discussion
+[Proposal or discussion]{custom-style="Committee Body Heading"}
 
 Set out the substantive material succinctly.
 
-## Recommendation
+[Recommendation]{custom-style="Committee Body Heading"}
 
 State the recommendation clearly.

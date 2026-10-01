@@ -1,24 +1,19 @@
-# lboroPaper v0.4
+# lboroPaper v0.5
 
-Metadata-driven Quarto starter template for Loughborough University committee papers.
+Metadata-driven Quarto template for Loughborough University committee papers.
 
-This revision restores the colour/style information found in the supplied 2025 Word coversheet:
+## Improvements in v0.5
 
-- `Committee Name` custom Word style, including white text;
-- `SectionHeading2` custom style for the paper reference;
-- source heading styles and purple theme palette from `reference.docx`;
-- pale-purple `#E5DFEC` / `accent4` styling for the Action Required table.
+- full-width purple committee banner with white committee text;
+- pale-purple Action Required panel without the three-row Markdown table or stray backslash;
+- compact bold coversheet labels rather than Heading 3;
+- restrained purple body headings;
+- original page geometry, Arial typography and footer retained from the supplied Word reference document.
 
-## Create a paper
+## Install/use
 
 ```bash
 quarto use template drsimonmartin/lboroPaper
 ```
 
-Use only:
-
-```yaml
-format: lboroPaper-docx
-```
-
-After replacing an older GitHub version, create a fresh test project because Quarto copies the extension into each project.
+Use `format: lboroPaper-docx`. After updating GitHub, create a fresh test installation because Quarto copies the extension into each project.

@@ -1,69 +1,29 @@
 local stringify = pandoc.utils.stringify
-
-local function meta_text(meta, key, default)
-  local v = meta[key]
-  if v == nil then return default or '' end
-  local s = stringify(v)
-  if s == '' then return default or '' end
-  return s
+local function mt(m,k,d) local v=m[k]; if v==nil then return d or '' end; local s=stringify(v); if s=='' then return d or '' end; return s end
+local function sp(style, inlines) return pandoc.Div({pandoc.Para(inlines)}, pandoc.Attr('',{}, {['custom-style']=style})) end
+local function txt(style, text) return sp(style, pandoc.Inlines{pandoc.Str(text)}) end
+local function strongtxt(style, text) return sp(style, pandoc.Inlines{pandoc.Strong(pandoc.Inlines{pandoc.Str(text)})}) end
+local function normal(text) return pandoc.Para(pandoc.Inlines{pandoc.Str(text)}) end
+local function labelled(label,text)
+  local x=pandoc.Inlines{pandoc.Strong(pandoc.Inlines{pandoc.Str(label)})}
+  if text~='' then x:insert(pandoc.Space()); x:insert(pandoc.Str(text)) end
+  return pandoc.Para(x)
 end
-
-local function styled_para(style, inlines)
-  return pandoc.Div({pandoc.Para(inlines)}, pandoc.Attr('', {}, {['custom-style'] = style}))
-end
-
-local function normal_para(text)
-  return pandoc.Para(pandoc.Inlines{pandoc.Str(text)})
-end
-
-local function bold_para(label, text)
-  local xs = pandoc.Inlines{pandoc.Strong(pandoc.Inlines{pandoc.Str(label)})}
-  if text and text ~= '' then
-    xs:insert(pandoc.Space())
-    xs:insert(pandoc.Str(text))
-  end
-  return pandoc.Para(xs)
-end
-
-local function heading_para(text)
-  return styled_para('Heading 3', pandoc.Inlines{pandoc.Strong(pandoc.Inlines{pandoc.Str(text)})})
-end
-
-local function action_table(action, detail)
-  -- The source reference.docx includes the Table Grid style and its theme palette.
-  -- A Markdown table is used here for robust DOCX generation. The companion
-  -- reference.docx has been patched so Table Grid carries the source pale-purple
-  -- E5DFEC cell fill, making generated action boxes inherit that colour.
-  local md = '| **Action Required:** |\n|---|\n| **' .. action .. '**  \\\n' .. detail .. ' |'
-  return pandoc.read(md, 'markdown').blocks
-end
-
 function Pandoc(doc)
   if not FORMAT:match('docx') then return nil end
-  local m = doc.meta
-  local blocks = pandoc.Blocks{}
-
-  blocks:insert(styled_para('SectionHeading2', pandoc.Inlines{pandoc.Str(meta_text(m, 'paper-reference', 'Paper reference'))}))
-  blocks:insert(styled_para('Committee Name', pandoc.Inlines{pandoc.Str(string.upper(meta_text(m, 'committee', 'COMMITTEE NAME')))}))
-  blocks:insert(pandoc.Header(2, pandoc.Inlines{pandoc.Str(meta_text(m, 'title', 'Name of Paper'))}))
-  blocks:insert(bold_para('Origin:', meta_text(m, 'origin', 'List the author(s) of the paper')))
-  blocks:extend(action_table(meta_text(m, 'action', 'CONSIDER'), meta_text(m, 'action-detail', 'Clearly indicate what the committee is being asked to do.')))
-
-  blocks:insert(heading_para('Executive Summary'))
-  blocks:insert(normal_para(meta_text(m, 'executive-summary', 'Provide a standalone executive summary.')))
-  blocks:insert(heading_para('Other Committees Consulted'))
-  blocks:insert(normal_para(meta_text(m, 'committees-consulted', 'None')))
-  blocks:insert(heading_para('Equity, Diversity and Inclusion Considerations'))
-  blocks:insert(normal_para(meta_text(m, 'edi-considerations', 'N/A')))
-  blocks:insert(heading_para(meta_text(m, 'title', 'Paper Name')))
-  blocks:extend(doc.blocks)
-
-  local supp = meta_text(m, 'supplementary-reading', '')
-  if supp ~= '' then
-    blocks:insert(heading_para('Supplementary Reading'))
-    blocks:insert(normal_para(supp))
-  end
-
-  m.title = nil; m.author = nil; m.date = nil
-  return pandoc.Pandoc(blocks, m)
+  local m=doc.meta; local b=pandoc.Blocks{}
+  b:insert(txt('SectionHeading2',mt(m,'paper-reference','Paper reference')))
+  b:insert(txt('Committee Banner',string.upper(mt(m,'committee','COMMITTEE NAME'))))
+  b:insert(pandoc.Header(2,pandoc.Inlines{pandoc.Str(mt(m,'title','Name of Paper'))}))
+  b:insert(labelled('Origin:',mt(m,'origin','List the author(s) of the paper')))
+  b:insert(txt('Action Required Heading','Action Required:'))
+  b:insert(sp('Action Required', pandoc.Inlines{pandoc.Strong(pandoc.Inlines{pandoc.Str(mt(m,'action','CONSIDER'))}), pandoc.LineBreak(), pandoc.Str(mt(m,'action-detail','Clearly indicate what the committee is being asked to do.'))}))
+  b:insert(strongtxt('Committee Section Heading','Executive Summary')); b:insert(normal(mt(m,'executive-summary','Provide a standalone executive summary.')))
+  b:insert(strongtxt('Committee Section Heading','Other Committees Consulted')); b:insert(normal(mt(m,'committees-consulted','None')))
+  b:insert(strongtxt('Committee Section Heading','Equity, Diversity and Inclusion Considerations')); b:insert(normal(mt(m,'edi-considerations','N/A')))
+  b:insert(strongtxt('Committee Section Heading',mt(m,'title','Paper Name')))
+  b:extend(doc.blocks)
+  local s=mt(m,'supplementary-reading',''); if s~='' then b:insert(strongtxt('Committee Section Heading','Supplementary Reading')); b:insert(normal(s)) end
+  m.title=nil; m.author=nil; m.date=nil
+  return pandoc.Pandoc(b,m)
 end
