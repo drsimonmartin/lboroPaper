@@ -1,0 +1,31 @@
+---
+title: "Name of Paper"
+paper-reference: "COUN26-P1"
+committee: "COUNCIL"
+origin: "Name, role or committee originating the paper"
+action: "CONSIDER"
+action-detail: "Consider the proposal and provide comments on the recommendations."
+executive-summary: >
+  Summarise the paper here. This should stand alone and provide enough context for
+  committee members, including lay members, to understand the issue and the action requested.
+committees-consulted: "List prior committees here, or None."
+edi-considerations: >
+  Describe relevant equity, diversity and inclusion considerations and state whether
+  an Equality Impact Assessment has been undertaken. Use N/A only where appropriate.
+supplementary-reading: "Add links or appendix references here, or omit this field if none."
+format: lboroPaper-docx
+---
+
+Write the main body of the committee paper here. The extension automatically creates the coversheet material above this content from the YAML metadata.
+
+## Background
+
+Add the background and evidence required by the committee.
+
+## Proposal or discussion
+
+Set out the substantive material succinctly.
+
+## Recommendation
+
+State the recommendation clearly.

@@ -1,0 +1,12 @@
+title: Loughborough Committee Paper
+author: Loughborough University
+version: 0.2.0
+quarto-required: ">=1.4.0"
+contributes:
+  formats:
+    docx:
+      reference-doc: word/reference.docx
+      toc: false
+      number-sections: false
+      filters:
+        - lboro-paper.lua
