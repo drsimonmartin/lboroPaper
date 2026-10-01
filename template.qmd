@@ -4,7 +4,8 @@ paper-reference: "COUN26-P1"
 committee: "COUNCIL"
 origin: "Name, role or committee originating the paper"
 action: "CONSIDER"
-action-detail: "Consider the proposal and provide comments on the recommendations."
+action-detail: >
+  Consider the proposal and provide comments on the recommendations.
 executive-summary: >
   Summarise the paper here. This should stand alone and provide enough context for
   committee members, including lay members, to understand the issue and the action requested.
@@ -16,7 +17,7 @@ supplementary-reading: "Add links or appendix references here, or omit this fiel
 format: lboroPaper-docx
 ---
 
-Write the main body of the committee paper here. The extension automatically creates the coversheet material above this content from the YAML metadata.
+Write only the substantive body of the committee paper below.
 
 ## Background
 
